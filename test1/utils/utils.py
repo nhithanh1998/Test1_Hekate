@@ -6,6 +6,7 @@ pp = pprint.PrettyPrinter(indent=2)
 metadata_type_map = {
     'next_book_link': ['http://schema.org/Book'],
     'book': ['http://schema.org/Book'],
+    'review': ['http://schema.org/Review']
 }
 
 wanted_property_map = {
@@ -15,6 +16,11 @@ wanted_property_map = {
     'book': {
         'rating': ['properties', 'aggregateRating', 'properties', 'ratingValue'],
         'title': ['properties', 'name'],
+        'author': ['properties', 'author', 'properties', 'name'],
+        'reviews': ['properties', 'reviews']
+    },
+    'review': {
+
     }
 }
 
@@ -29,6 +35,7 @@ def extract_data(raw, url, wanted_value):
 
 
 def extract_data_from_microdata(microdata, schema_type, wanted_properties={}):
+    pp.pprint(microdata)
     rs = []
     items = [item for item in microdata if item['type'] in schema_type]
     for item in items:
@@ -36,10 +43,15 @@ def extract_data_from_microdata(microdata, schema_type, wanted_properties={}):
     return rs
 
 
-def get_nested_value_from_dict(dct, keys, default = ''):
-    for key in keys:
-        try:
-            dct = dct[key]
-        except KeyError:
-            return default
-    return dct
+def get_nested_value_from_dict(dct, keys, default=''):
+    if type(dct) is dict:
+        for key in keys:
+            try:
+                dct = dct[key]
+            except KeyError:
+                return default
+        return dct
+    elif type(dct) is list:
+        return [get_nested_value_from_dict(dct=item, keys=keys, default=default) for item in dct]
+
+

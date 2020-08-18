@@ -1,9 +1,11 @@
 from abc import ABC
+import re
 import scrapy
+
 import pprint
 
 from test1.items import Book
-from test1.utils.utils import extract_data
+from test1.utils.utils import extract_data, get_nested_value_from_dict
 
 pp = pprint.PrettyPrinter(indent=2)
 
@@ -24,11 +26,18 @@ class BaseSpider(scrapy.Spider, ABC):
 
     def parse_book_data(self, response):
         book = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='book')[0]
-        book['id'] = ''
+        pattern = r"(?!.*\/).*?(?=-)"
+        book['id'] = re.findall(pattern, response.url)[0]
         book['link'] = response.url
-
         book['description'] = response.xpath('//div[@id="description"]/span[2]/text()').get()
-        pp.pprint(book)
+        # for review_url in get_nested_value_from_dict(book['reviews'], ['properties', 'url']):
+        #     yield scrapy.Request(url=review_url, callback=self.parse_book_review())
+        review_url = get_nested_value_from_dict(book['reviews'], ['properties', 'url'])[0]
+        yield scrapy.Request(url=review_url, callback=self.parse_book_review)
+
+    def parse_book_review(self, response):
+        review = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='review')[0]
+        pp.pprint(review)
 
 
-# (?!.*\/).+
+#
