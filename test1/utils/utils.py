@@ -3,6 +3,8 @@ import pprint
 
 pp = pprint.PrettyPrinter(indent=2)
 
+# below is the two object for easily declare what value need and how to get it
+
 metadata_type_map = {
     'next_book_link': ['http://schema.org/Book'],
     'book': ['http://schema.org/Book'],
@@ -27,26 +29,31 @@ wanted_property_map = {
     }
 }
 
+# meta_data full syntax = ['microdata', 'json-ld', 'microformat', 'opengraph', 'rdfa']
+# but only with microdata we can get all we need from good_read side
+
 syntaxes = ['microdata']
 
 
-def extract_data(raw, url, wanted_value, flag = 1):
-    data = extruct.extract(raw, base_url=url, syntaxes=syntaxes)
-    if wanted_value == 'review':
-        flag = 0
-    rs = extract_data_from_microdata(data['microdata'], metadata_type_map[wanted_value],
-                                     wanted_property_map[wanted_value], flag)
+# extract_data currently enable only microdata but in future new may come in town, so I return array here so we don't
+# need to adjust so many in the future
 
+def extract_data(raw, url, wanted_value):
+    data = extruct.extract(raw, base_url=url, syntaxes=syntaxes)
+    rs = extract_data_from_microdata(data['microdata'], metadata_type_map[wanted_value],
+                                     wanted_property_map[wanted_value])
     return rs
 
 
-def extract_data_from_microdata(microdata, schema_type, wanted_properties={}, flag=1):
+def extract_data_from_microdata(microdata, schema_type, wanted_properties={}):
     rs = []
     items = [item for item in microdata if item['type'] in schema_type]
     for item in items:
         rs.append({key: get_nested_value_from_dict(item, wanted_properties[key]) for key in wanted_properties.keys()})
     return rs
 
+
+# safe get value from nested key if the chain occurred any error it will return default value
 
 def get_nested_value_from_dict(dct, keys, default=''):
     if type(dct) is dict:
@@ -57,6 +64,5 @@ def get_nested_value_from_dict(dct, keys, default=''):
                 return default
         return dct
     elif type(dct) is list:
+        # not safe yet may encounter error if error occur
         return [get_nested_value_from_dict(dct=item, keys=keys, default=default) for item in dct]
-
-
