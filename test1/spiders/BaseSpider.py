@@ -37,7 +37,29 @@ class BaseSpider(scrapy.Spider, ABC):
 
     def parse_book_review(self, response):
         review = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='review')[0]
-        pp.pprint(review)
+        pattern = r"(?!.*\/).*?(?=-)"
+        reviewer_url = review['review_url']
+        review['name'] = response.xpath("//a[@class='userReview']/text()").get()
+        review['reviewer_id'] = re.findall(pattern, reviewer_url)[0]
+        self.parse_comment(response)
 
+    def parse_comment(self, response):
+        comments = []
+        raw_comments = response.xpath('//div[@class="comment u-anchorTarget"]').getall()
+        for raw_comment in raw_comments:
+            comments.append(self.parse_raw_comment(raw_comment))
+        return comments
 
-#
+    def parse_raw_comment(self, raw_comment):
+        comment_sel = scrapy.Selector(text=raw_comment, type="html")
+        pattern = r"(?!.*\/).*?(?=-)"
+        name = comment_sel.xpath('//a/@title').extract_first()
+        user_id = re.findall(pattern, comment_sel.xpath('//a/@href').extract_first())[0]
+        content = comment_sel.xpath('//div[@class = "mediumText reviewText"]/text()').extract()[1].strip()
+        date = comment_sel.xpath('//div[@class = "right"]/@title').extract_first()
+        return {
+            'user_id': user_id,
+            'user_name': name,
+            'comment_content': content,
+            'created_date': date
+        }
