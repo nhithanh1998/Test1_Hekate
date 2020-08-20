@@ -1,7 +1,6 @@
 import extruct
-import pprint
+import re
 
-pp = pprint.PrettyPrinter(indent=2)
 
 # below is the two object for easily declare what value need and how to get it
 
@@ -66,3 +65,8 @@ def get_nested_value_from_dict(dct, keys, default=''):
     elif type(dct) is list:
         # not safe yet may encounter error if error occur
         return [get_nested_value_from_dict(dct=item, keys=keys, default=default) for item in dct]
+
+
+def get_id_from_link(url):
+    pattern = r"(?!.*\/).*?(?=-)"
+    return re.findall(pattern, url)[0]

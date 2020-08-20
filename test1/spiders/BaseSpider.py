@@ -1,10 +1,9 @@
 from abc import ABC
-import re
 import scrapy
 from urllib.parse import urljoin
 from bson.objectid import ObjectId
 from test1.items import BookItem, ReviewItem, CommentItem
-from test1.utils.utils import extract_data, get_nested_value_from_dict
+from test1.utils.utils import extract_data, get_nested_value_from_dict, get_id_from_link
 
 
 class BaseSpider(scrapy.Spider, ABC):
@@ -29,8 +28,7 @@ class BaseSpider(scrapy.Spider, ABC):
         page_url = response.url
         # get desire value by metadata in schema.org
         book_meta_data = extract_data(raw=response.css('html').get(), url=page_url, wanted_value='book')[0]
-        pattern = r"(?!.*\/).*?(?=-)"
-        book_id = re.findall(pattern, response.url)[0]
+        book_id = get_id_from_link(response.url)
         # this function recursively use to get user reviews, this flag is to check if book data already insert
         # inside database we not need to get it data again
         # yield will return an Item and pass over Pipeline to save
@@ -67,11 +65,10 @@ class BaseSpider(scrapy.Spider, ABC):
             review_item = ReviewItem()
             review_id = ObjectId()
             # re process review item before insert into database
-            pattern = r"(?!.*\/).*?(?=-)"
             reviewer_url = metadata['reviewer_url']
             review_item['_id'] = review_id
             review_item['book_id'] = book_id
-            review_item['user_id'] = re.findall(pattern, reviewer_url)[0]
+            review_item['user_id'] = get_id_from_link(response.url)
             review_item['user_name'] = response.xpath("//a[@class='userReview']/text()").get()
             review_item['rate'] = metadata['rate']
             review_item['content'] = metadata['content']
@@ -98,9 +95,8 @@ class BaseSpider(scrapy.Spider, ABC):
     def __parse_comment_from_raw(raw_comment, review_id):
         comment_item = CommentItem()
         comment_sel = scrapy.Selector(text=raw_comment, type="html")
-        pattern = r"(?!.*\/).*?(?=-)"
         comment_item['review_id'] = review_id
-        comment_item['user_id'] = re.findall(pattern, comment_sel.xpath('//a/@href').extract_first())[0]
+        comment_item['user_id'] = get_id_from_link(comment_sel.xpath('//a/@href').extract_first())
         comment_item['user_name'] = comment_sel.xpath('//a/@title').extract_first()
         comment_item['content'] = comment_sel.xpath('//div[@class = "mediumText reviewText"]/text()').extract()[1].strip()
         comment_item['date_posted'] = comment_sel.xpath('//div[@class = "right"]/@title').extract_first()
