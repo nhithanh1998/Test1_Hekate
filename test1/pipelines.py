@@ -1,9 +1,10 @@
 import pymongo
 from itemadapter import ItemAdapter
+from test1.items import BookItem, ReviewItem
+from bson.objectid import ObjectId
 
 
 class MongoPipeline:
-
     collection_name = 'scrapy_items'
 
     def __init__(self, mongo_uri, mongo_db):
@@ -14,7 +15,7 @@ class MongoPipeline:
     def from_crawler(cls, crawler):
         return cls(
             mongo_uri=crawler.settings.get('MONGO_URI'),
-            mongo_db=crawler.settings.get('MONGO_DATABASE', 'items')
+            mongo_db=crawler.settings.get('MONGO_DATABASE')
         )
 
     def open_spider(self, spider):
@@ -25,5 +26,18 @@ class MongoPipeline:
         self.client.close()
 
     def process_item(self, item, spider):
-        self.db[self.collection_name].insert_one(ItemAdapter(item).asdict())
+        if isinstance(item, BookItem):
+            self.insert_book_item(item)
+        if isinstance(item, ReviewItem):
+            self.insert_review_item(item)
         return item
+
+    def insert_book_item(self, item):
+        self.db['book'].insert_one(ItemAdapter(item).asdict())
+
+    def insert_review_item(self, item):
+        review_id = self.db['review'].insert_one(ItemAdapter(item).asdict()).inserted_id
+        self.db['book'].find_one_and_update(
+            {'_id': item.get('book_id')},
+            {'$addToSet': {'$reviews': review_id}}
+        )

@@ -2,10 +2,11 @@ from abc import ABC
 import re
 import scrapy
 from urllib.parse import urljoin
+from bson.objectid import ObjectId
 
 import pprint
 
-from test1.items import Book
+from test1.items import BookItem, ReviewItem
 from test1.utils.utils import extract_data, get_nested_value_from_dict
 
 pp = pprint.PrettyPrinter(indent=2)
@@ -29,40 +30,62 @@ class BaseSpider(scrapy.Spider, ABC):
         # get all book links in page -> access inside -> parse
         next_book_links = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='next_book_link')
         for link in next_book_links:
-            yield scrapy.Request(url=link['url'], callback=self.__parse_book_data)
+            yield scrapy.Request(url=link['url'], callback=self.__parse_book_data, )
 
     def __parse_book_data(self, response):
         page_url = response.url
-
         # get desire value by metadata in schema.org
-        book = extract_data(raw=response.css('html').get(), url=page_url, wanted_value='book')[0]
-
-        # add additional field that GoodRead schema.org not declare in their meta_data
+        book_meta_data = extract_data(raw=response.css('html').get(), url=page_url, wanted_value='book')[0]
         pattern = r"(?!.*\/).*?(?=-)"
-        book['id'] = re.findall(pattern, response.url)[0]
-        book['link'] = page_url
-        book['description'] = response.xpath('//div[@id="description"]/span[2]/text()').get()
+        book_id = re.findall(pattern, response.url)[0]
+        # this function recursively use to get user reviews, this flag is to check if book data already insert
+        # inside database we not need to get it data again
+        # yield will return an Item and pass over Pipeline to save
+        if response.meta.get('isFirstPage'):
+            # add additional field that GoodRead schema.org not declare in their meta_data
+            book_item = BookItem()
+            book_item['_id'] = book_id
+            book_item['title'] = book_meta_data['title']
+            book_item['url'] = page_url
+            book_item['rate'] = book_meta_data['rate']
+            book_item['author'] = book_meta_data['author']
+            book_item['description'] = response.xpath('//div[@id="description"]/span[2]/text()').get()
+            book_item['reviews'] = []
+            yield book_item
 
         # travel to next page to get more review from community
         next_page = response.xpath('//a[@class="next_page"]/@href').get()
         if next_page:
-            yield scrapy.Request(url=urljoin(response.url, next_page), callback=self.__parse_book_review)
+            yield scrapy.Request(url=urljoin(response.url, next_page), callback=self.__parse_book_data,
+                                 meta={'isFirstPage': True})
 
         # get other users review
         # access to get all review url -> review_page -> parse review
-        for review_url in get_nested_value_from_dict(book['reviews'], ['properties', 'url']):
-            yield scrapy.Request(url=review_url, callback=self.__parse_book_review)
+        for review_url in get_nested_value_from_dict(book_meta_data['reviews'], ['properties', 'url']):
+            yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
 
     def __parse_book_review(self, response):
+        book_id = response.meta.get('book_id')
+        review_id = ObjectId()
         # get desire value by metadata in schema.org you can declare it in utils.util file
-        review = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='review')[0]
-        # add additional field that not covered yet in their metadata
+        metadata = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='review')[0]
+        review_item = ReviewItem()
+
+        # re process review item before insert into database
         pattern = r"(?!.*\/).*?(?=-)"
-        reviewer_url = review['review_url']
-        review['name'] = response.xpath("//a[@class='userReview']/text()").get()
-        review['reviewer_id'] = re.findall(pattern, reviewer_url)[0]
+        reviewer_url = metadata['reviewer_url']
+        review_item['_id'] = review_id
+        review_item['book_id'] = book_id
+        review_item['user_id'] = re.findall(pattern, reviewer_url)[0]
+        review_item['user_name'] = response.xpath("//a[@class='userReview']/text()").get()
+        review_item['rate'] = metadata['rate']
+        review_item['content'] = metadata['content']
+        review_item['date_posted'] = metadata['date_posted']
+        review_item['replies'] = []
+        yield review_item
+
         # parse comments (reply) to this review
-        self.parse_comment(response)
+        # self.parse_comment(response)
 
     def parse_comment(self, response):
         comments = []

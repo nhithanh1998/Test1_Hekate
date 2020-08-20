@@ -16,16 +16,16 @@ wanted_property_map = {
         'url': ["properties", "url"]
     },
     'book': {
-        'rating': ['properties', 'aggregateRating', 'properties', 'ratingValue'],
+        'rate': ['properties', 'aggregateRating', 'properties', 'ratingValue'],
         'title': ['properties', 'name'],
         'author': ['properties', 'author', 'properties', 'name'],
         'reviews': ['properties', 'reviews']
     },
     'review': {
-        'review_url': ['properties', 'reviews', 'properties', 'author'],
-        'review_content': ['properties', 'reviews', 'properties', 'reviewBody'],
+        'reviewer_url': ['properties', 'reviews', 'properties', 'author'],
+        'content': ['properties', 'reviews', 'properties', 'reviewBody'],
         'rate': ['properties', 'reviews', 'properties', 'reviewRating', 'properties', 'ratingValue'],
-        'date_published': ['properties', 'reviews', 'properties', 'datePublished']
+        'date_posted': ['properties', 'reviews', 'properties', 'datePublished']
     }
 }
 
