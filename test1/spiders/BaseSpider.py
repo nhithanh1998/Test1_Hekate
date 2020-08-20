@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 from bson.objectid import ObjectId
 from test1.items import BookItem, ReviewItem, CommentItem
 from test1.utils.utils import extract_data, get_nested_value_from_dict, get_first_match, add_url_params
-
+from scrapy.crawler import CrawlerProcess
 
 class BaseSpider(scrapy.Spider, ABC):
     name = 'base'
@@ -108,3 +108,7 @@ class BaseSpider(scrapy.Spider, ABC):
             comment_item['date_posted'] = comment_sel.xpath('//div[@class = "right"]/@title').extract_first()
 
             yield comment_item
+
+
+
+
