@@ -33,5 +33,9 @@ MONGO_URI = 'mongodb+srv://nhithanh123vnn:nhithanh123@cluster0.gwjou.mongodb.net
 MONGO_DATABASE = 'test1'
 ```
 
+
+### Backup database
+You can use `book.json`, `review.json`, and `comment.json` to do back up inside your **Mongo Compass**
+
 ### Overview total data after crawl
 ![alt text](https://raw.githubusercontent.com/nhithanh1998/Test1_Hekate/master/overview.png "Logo Title Text 1")
