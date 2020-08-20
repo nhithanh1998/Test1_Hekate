@@ -20,6 +20,7 @@ class ReviewItem(Item):
     content = Field()
     date_posted = Field()
     comments = Field()
+    url = Field()
 
 
 class CommentItem(Item):

@@ -1,6 +1,9 @@
 import extruct
 import re
-
+import logging
+from bson.objectid import ObjectId
+from urllib.parse import urlencode, unquote, urlparse, parse_qsl, ParseResult
+from json import dumps
 
 # below is the two object for easily declare what value need and how to get it
 
@@ -67,6 +70,39 @@ def get_nested_value_from_dict(dct, keys, default=''):
         return [get_nested_value_from_dict(dct=item, keys=keys, default=default) for item in dct]
 
 
-def get_id_from_link(url):
-    pattern = r"(?!.*\/).*?(?=-)"
-    return re.findall(pattern, url)[0]
+def get_first_match(pattern, text, default=ObjectId()):
+    try:
+        return re.findall(pattern, text)[0]
+    except:
+        logging.error(text, 'error to get ID')
+        return default
+
+
+def add_url_params(url, params):
+    url = unquote(url)
+    # Extracting url info
+    parsed_url = urlparse(url)
+    # Extracting URL arguments from parsed URL
+    get_args = parsed_url.query
+    # Converting URL arguments to dict
+    parsed_get_args = dict(parse_qsl(get_args))
+    # Merging URL arguments dict with new params
+    parsed_get_args.update(params)
+
+    # Bool and Dict values should be converted to json-friendly values
+    # you may throw this part away if you don't like it :)
+    parsed_get_args.update(
+        {k: dumps(v) for k, v in parsed_get_args.items()
+         if isinstance(v, (bool, dict))}
+    )
+    # Converting URL argument to proper query string
+    encoded_get_args = urlencode(parsed_get_args, doseq=True)
+    # Creating new parsed result object based on provided with new
+    # URL arguments. Same thing happens inside of urlparse.
+    new_url = ParseResult(
+        parsed_url.scheme, parsed_url.netloc, parsed_url.path,
+        parsed_url.params, encoded_get_args, parsed_url.fragment
+    ).geturl()
+
+    return new_url
+

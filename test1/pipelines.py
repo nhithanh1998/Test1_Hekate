@@ -28,8 +28,12 @@ class MongoPipeline:
     def process_item(self, item, spider):
         if isinstance(item, BookItem):
             self.insert_book_item(item)
+            return []
         if isinstance(item, ReviewItem):
             self.insert_review_item(item)
+            return []
+        if isinstance(item, CommentItem):
+            self.insert_comment_item(item)
         return item
 
     def insert_book_item(self, item):
@@ -39,12 +43,12 @@ class MongoPipeline:
         review_id = self.db['review'].insert_one(ItemAdapter(item).asdict()).inserted_id
         self.db['book'].find_one_and_update(
             {'_id': item.get('book_id')},
-            {'$addToSet': {'$reviews': review_id}}
+            {'$addToSet': {'reviews': review_id}}
         )
 
     def insert_comment_item(self, item):
         comment_id = self.db['comment'].insert_one(ItemAdapter(item).asdict()).inserted_id
         self.db['review'].find_one_and_update(
             {'_id': item.get('review_id')},
-            {'$addToSet': {'$comments': comment_id}}
+            {'$addToSet': {'comments': comment_id}}
         )

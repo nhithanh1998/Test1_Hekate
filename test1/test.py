@@ -1,11 +1,3 @@
-from pymongo import MongoClient
+from test1.utils.utils import add_url_params
 
-
-client = MongoClient("mongodb+srv://nhithanh123vnn:nhithanh123@cluster0.gwjou.mongodb.net")
-db = client.get_database('test1')
-collection = db.get_collection('book')
-book = {
-    "author": "Thanh"
-}
-book_id = collection.insert_one(book).inserted_id
-print(book_id)
+print(add_url_params('http://zing.vn', {'name': '', 'page': 20}))
