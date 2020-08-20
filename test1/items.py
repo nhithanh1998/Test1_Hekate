@@ -19,4 +19,12 @@ class ReviewItem(Item):
     rate = Field()
     content = Field()
     date_posted = Field()
-    replies = Field()
+    comments = Field()
+
+
+class CommentItem(Item):
+    review_id = Field()
+    user_id = Field()
+    user_name = Field()
+    content = Field()
+    date_posted = Field()

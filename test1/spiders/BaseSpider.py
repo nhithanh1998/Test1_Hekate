@@ -3,16 +3,9 @@ import re
 import scrapy
 from urllib.parse import urljoin
 from bson.objectid import ObjectId
-
-import pprint
-
-from test1.items import BookItem, ReviewItem
+from test1.items import BookItem, ReviewItem, CommentItem
 from test1.utils.utils import extract_data, get_nested_value_from_dict
 
-pp = pprint.PrettyPrinter(indent=2)
-
-
-# https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=1&per_page=30
 
 class BaseSpider(scrapy.Spider, ABC):
     name = 'base'
@@ -65,53 +58,50 @@ class BaseSpider(scrapy.Spider, ABC):
             yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
 
     def __parse_book_review(self, response):
+        review_id = response.meta.get('review_id')
         book_id = response.meta.get('book_id')
-        review_id = ObjectId()
+
         # get desire value by metadata in schema.org you can declare it in utils.util file
         metadata = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='review')[0]
-        review_item = ReviewItem()
+        if not review_id:
+            review_item = ReviewItem()
+            review_id = ObjectId()
+            # re process review item before insert into database
+            pattern = r"(?!.*\/).*?(?=-)"
+            reviewer_url = metadata['reviewer_url']
+            review_item['_id'] = review_id
+            review_item['book_id'] = book_id
+            review_item['user_id'] = re.findall(pattern, reviewer_url)[0]
+            review_item['user_name'] = response.xpath("//a[@class='userReview']/text()").get()
+            review_item['rate'] = metadata['rate']
+            review_item['content'] = metadata['content']
+            review_item['date_posted'] = metadata['date_posted']
+            review_item['comments'] = []
+            yield review_item
 
-        # re process review item before insert into database
-        pattern = r"(?!.*\/).*?(?=-)"
-        reviewer_url = metadata['reviewer_url']
-        review_item['_id'] = review_id
-        review_item['book_id'] = book_id
-        review_item['user_id'] = re.findall(pattern, reviewer_url)[0]
-        review_item['user_name'] = response.xpath("//a[@class='userReview']/text()").get()
-        review_item['rate'] = metadata['rate']
-        review_item['content'] = metadata['content']
-        review_item['date_posted'] = metadata['date_posted']
-        review_item['replies'] = []
-        yield review_item
-
-        # parse comments (reply) to this review
-        # self.parse_comment(response)
-
-    def parse_comment(self, response):
-        comments = []
-
-        # travel to next page to get more comments
+        # travel to next page to get more comments in this review
         next_page = response.xpath('//a[@class="next_page"]/@href').get()
         if next_page:
-            yield scrapy.Request(url=urljoin(response.url, next_page), callback=self.parse)
+            yield scrapy.Request(url=urljoin(response.url, next_page), callback=self.__parse_book_review,
+                                 meta={'review_id': review_id})
 
+        # parse comments (reply) to this review
+        self.parse_comment(response, review_id)
+
+    def parse_comment(self, response, review_id):
         # parse comment
         raw_comments = response.xpath('//div[@class="comment u-anchorTarget"]').getall()
         for raw_comment in raw_comments:
-            comments.append(self.__parse_comment_from_raw(raw_comment))
-        return comments
+            self.__parse_comment_from_raw(raw_comment, review_id)
 
     @staticmethod
-    def __parse_comment_from_raw(raw_comment):
+    def __parse_comment_from_raw(raw_comment, review_id):
+        comment_item = CommentItem()
         comment_sel = scrapy.Selector(text=raw_comment, type="html")
         pattern = r"(?!.*\/).*?(?=-)"
-        name = comment_sel.xpath('//a/@title').extract_first()
-        user_id = re.findall(pattern, comment_sel.xpath('//a/@href').extract_first())[0]
-        content = comment_sel.xpath('//div[@class = "mediumText reviewText"]/text()').extract()[1].strip()
-        date = comment_sel.xpath('//div[@class = "right"]/@title').extract_first()
-        return {
-            'user_id': user_id,
-            'user_name': name,
-            'comment_content': content,
-            'created_date': date
-        }
+        comment_item['review_id'] = review_id
+        comment_item['user_id'] = re.findall(pattern, comment_sel.xpath('//a/@href').extract_first())[0]
+        comment_item['user_name'] = comment_sel.xpath('//a/@title').extract_first()
+        comment_item['content'] = comment_sel.xpath('//div[@class = "mediumText reviewText"]/text()').extract()[1].strip()
+        comment_item['date_posted'] = comment_sel.xpath('//div[@class = "right"]/@title').extract_first()
+        yield comment_item

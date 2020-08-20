@@ -1,6 +1,6 @@
 import pymongo
 from itemadapter import ItemAdapter
-from test1.items import BookItem, ReviewItem
+from test1.items import BookItem, ReviewItem, CommentItem
 from bson.objectid import ObjectId
 
 
@@ -40,4 +40,11 @@ class MongoPipeline:
         self.db['book'].find_one_and_update(
             {'_id': item.get('book_id')},
             {'$addToSet': {'$reviews': review_id}}
+        )
+
+    def insert_comment_item(self, item):
+        comment_id = self.db['comment'].insert_one(ItemAdapter(item).asdict()).inserted_id
+        self.db['review'].find_one_and_update(
+            {'_id': item.get('review_id')},
+            {'$addToSet': {'$comments': comment_id}}
         )
