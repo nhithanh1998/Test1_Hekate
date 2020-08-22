@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 from bson.objectid import ObjectId
 from test1.items import BookItem, ReviewItem, CommentItem
 from test1.utils.utils import extract_data, get_nested_value_from_dict, get_first_match, add_url_params
-from scrapy.crawler import CrawlerProcess
+
 
 class BaseSpider(scrapy.Spider, ABC):
     name = 'base'
@@ -15,9 +15,9 @@ class BaseSpider(scrapy.Spider, ABC):
 
     def parse(self, response, **kwargs):
         # get next page and do parse process again
-        next_page = response.xpath('//a[@class="next_page"]/@href').get()
-        if next_page:
-            yield scrapy.Request(url=urljoin(response.url, next_page), callback=self.parse)
+        # next_page = response.xpath('//a[@class="next_page"]/@href').get()
+        # if next_page:
+        #     yield scrapy.Request(url=urljoin(response.url, next_page), callback=self.parse)
 
         # get all book links in page -> access inside -> parse
         next_book_links = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='next_book_link')
@@ -44,7 +44,8 @@ class BaseSpider(scrapy.Spider, ABC):
             book_item['url'] = genesis_url
             book_item['rate'] = book_meta_data['rate']
             book_item['author'] = book_meta_data['author']
-            book_item['description'] = response.xpath('//div[@id="description"]/span[2]/text()').get()
+            book_item['description'] = response.xpath(
+                '//div[@id="description"]/span[contains(@id, "freeTextContainer")]/text()').get()
             book_item['reviews'] = []
             yield book_item
 
