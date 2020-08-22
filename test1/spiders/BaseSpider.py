@@ -13,7 +13,8 @@ class BaseSpider(scrapy.Spider, ABC):
     def start_requests(self):
         # yield scrapy.Request(url=self.start_url, callback=self.parse, dont_filter=True)
         url = 'https://www.goodreads.com/book/show/10925109-cho-t-i-xin-m-t-v-i-tu-i-th'
-        yield scrapy.Request(url=url,
+        link = add_url_params(url, {'language_code': '', 'page': 1})
+        yield scrapy.Request(url=link,
                              callback=self.__parse_book_data, meta={'cur_page': 1, 'genesis_url': url})
 
     def parse(self, response, **kwargs):
@@ -26,8 +27,9 @@ class BaseSpider(scrapy.Spider, ABC):
         next_book_links = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='next_book_link')
         for link in next_book_links:
             # GoodRead using AJAX
-            yield scrapy.Request(link['url'], callback=self.__parse_book_data, meta={'cur_page': 1,
-                                                                                     'genesis_url': link['url']})
+            link = add_url_params(link['url'], {'language_code': '', 'page': 1})
+            yield scrapy.Request(link, callback=self.__parse_book_data, meta={'cur_page': 1,
+                                                                              'genesis_url': link['url']})
 
     def __parse_book_data(self, response):
         genesis_url = response.meta.get('genesis_url')
