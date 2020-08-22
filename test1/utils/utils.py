@@ -66,7 +66,6 @@ def get_nested_value_from_dict(dct, keys, default=''):
                 return default
         return dct
     elif type(dct) is list:
-        # not safe yet may encounter error if error occur
         return [get_nested_value_from_dict(dct=item, keys=keys, default=default) for item in dct]
 
 
@@ -105,4 +104,3 @@ def add_url_params(url, params):
     ).geturl()
 
     return new_url
-

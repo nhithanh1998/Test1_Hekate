@@ -11,7 +11,10 @@ class BaseSpider(scrapy.Spider, ABC):
     start_url = 'https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=1&per_page=30'
 
     def start_requests(self):
-        yield scrapy.Request(url=self.start_url, callback=self.parse, dont_filter=True)
+        # yield scrapy.Request(url=self.start_url, callback=self.parse, dont_filter=True)
+        url = 'https://www.goodreads.com/book/show/10925109-cho-t-i-xin-m-t-v-i-tu-i-th'
+        yield scrapy.Request(url=url,
+                             callback=self.__parse_book_data, meta={'cur_page': 1, 'genesis_url': url})
 
     def parse(self, response, **kwargs):
         # get next page and do parse process again
@@ -31,7 +34,7 @@ class BaseSpider(scrapy.Spider, ABC):
         cur_page = response.meta.get('cur_page')
         # get desire value by metadata in schema.org
         book_meta_data = extract_data(raw=response.css('html').get(), url=genesis_url, wanted_value='book')[0]
-        book_id = get_first_match(r"(?!.*\/).*?(?=-)", genesis_url)
+        book_id = get_first_match(r"(?!.*\/)[0-9]*", genesis_url)
 
         # this function recursively use to get user reviews, this flag is to check if book data already insert
         # inside database we not need to get it data again
@@ -75,7 +78,7 @@ class BaseSpider(scrapy.Spider, ABC):
             reviewer_url = metadata['reviewer_url']
             review_item['_id'] = review_id
             review_item['book_id'] = book_id
-            review_item['user_id'] = get_first_match(r"(?!.*\/).*?(?=-)", reviewer_url)
+            review_item['user_id'] = get_first_match(r"(?!.*\/)[0-9]*", reviewer_url)
             review_item['user_name'] = response.xpath("//a[@class='userReview']/text()").get()
             review_item['rate'] = metadata['rate']
             review_item['url'] = response.url
@@ -101,7 +104,7 @@ class BaseSpider(scrapy.Spider, ABC):
             comment_item = CommentItem()
             comment_sel = scrapy.Selector(text=raw_comment, type="html")
             comment_item['review_id'] = review_id
-            comment_item['user_id'] = get_first_match(r"(?!.*\/).*?(?=-)",
+            comment_item['user_id'] = get_first_match(r"(?!.*\/)[0-9]*",
                                                       comment_sel.xpath('//a/@href').extract_first())
             comment_item['user_name'] = comment_sel.xpath('//a/@title').extract_first()
             comment_item['content'] = comment_sel.xpath('//div[@class = "mediumText reviewText"]/text()').extract()[
@@ -109,7 +112,3 @@ class BaseSpider(scrapy.Spider, ABC):
             comment_item['date_posted'] = comment_sel.xpath('//div[@class = "right"]/@title').extract_first()
 
             yield comment_item
-
-
-
-
