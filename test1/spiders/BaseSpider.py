@@ -11,17 +11,13 @@ class BaseSpider(scrapy.Spider, ABC):
     start_url = 'https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=1&per_page=30'
 
     def start_requests(self):
-        # yield scrapy.Request(url=self.start_url, callback=self.parse, dont_filter=True)
-        url = 'https://www.goodreads.com/book/show/10925109-cho-t-i-xin-m-t-v-i-tu-i-th'
-        link = add_url_params(url, {'language_code': '', 'page': 1})
-        yield scrapy.Request(url=link,
-                             callback=self.__parse_book_data, meta={'cur_page': 1, 'genesis_url': url})
+        yield scrapy.Request(url=self.start_url, callback=self.parse, dont_filter=True)
 
     def parse(self, response, **kwargs):
         # get next page and do parse process again
-        # next_page = response.xpath('//a[@class="next_page"]/@href').get()
-        # if next_page:
-        #     yield scrapy.Request(url=urljoin(response.url, next_page), callback=self.parse)
+        next_page = response.xpath('//a[@class="next_page"]/@href').get()
+        if next_page:
+            yield scrapy.Request(url=urljoin(response.url, next_page), callback=self.parse)
 
         # get all book links in page -> access inside -> parse
         next_book_links = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='next_book_link')
@@ -29,7 +25,7 @@ class BaseSpider(scrapy.Spider, ABC):
             # GoodRead using AJAX
             link = add_url_params(link['url'], {'language_code': '', 'page': 1})
             yield scrapy.Request(link, callback=self.__parse_book_data, meta={'cur_page': 1,
-                                                                              'genesis_url': link['url']})
+                                                                              'genesis_url': link})
 
     def __parse_book_data(self, response):
         genesis_url = response.meta.get('genesis_url')
@@ -41,7 +37,7 @@ class BaseSpider(scrapy.Spider, ABC):
         # this function recursively use to get user reviews, this flag is to check if book data already insert
         # inside database we not need to get it data again
         # yield will return an Item and pass over Pipeline to save
-        if cur_page is 1:
+        if cur_page == 1:
             # add additional field that GoodRead schema.org not declare in their meta_data
             book_item = BookItem()
             book_item['_id'] = book_id

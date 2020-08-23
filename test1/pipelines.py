@@ -49,6 +49,6 @@ class MongoPipeline:
     def insert_comment_item(self, item):
         comment_id = self.db['comment'].insert_one(ItemAdapter(item).asdict()).inserted_id
         self.db['review'].find_one_and_update(
-            {'_id': item.get('review_id')},
+            {'_id': ObjectId(item.get('review_id'))},
             {'$addToSet': {'comments': comment_id}}
         )
