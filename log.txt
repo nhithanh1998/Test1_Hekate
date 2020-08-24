@@ -1,0 +1,388 @@
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/53206504-b-m-t-c-a-m-t-v-s?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 63, in __parse_book_data
+    yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 25, in __init__
+    self._set_url(url)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 69, in _set_url
+    raise ValueError('Missing scheme in request url: %s' % self._url)
+ValueError: Missing scheme in request url: h
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/53206453-t-tuy-t-cho-n-ng?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 63, in __parse_book_data
+    yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 25, in __init__
+    self._set_url(url)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 69, in _set_url
+    raise ValueError('Missing scheme in request url: %s' % self._url)
+ValueError: Missing scheme in request url: h
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/53642005-tr-ch-i-l-ng-m-n-c-a-t-nh-y-u?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 63, in __parse_book_data
+    yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 25, in __init__
+    self._set_url(url)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 69, in _set_url
+    raise ValueError('Missing scheme in request url: %s' % self._url)
+ValueError: Missing scheme in request url: h
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/53206485-l-h-i-c-a-m-en?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 63, in __parse_book_data
+    yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 25, in __init__
+    self._set_url(url)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 69, in _set_url
+    raise ValueError('Missing scheme in request url: %s' % self._url)
+ValueError: Missing scheme in request url: h
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/54620839-i-see-yellow-flowers-in-the-green-grass?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 62, in __parse_book_data
+    for review_url in get_nested_value_from_dict(book_meta_data['reviews'], ['properties', 'url']):
+TypeError: 'NoneType' object is not iterable
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/53206470-th-t-nh?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 63, in __parse_book_data
+    yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 25, in __init__
+    self._set_url(url)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 69, in _set_url
+    raise ValueError('Missing scheme in request url: %s' % self._url)
+ValueError: Missing scheme in request url: h
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/53206504-b-m-t-c-a-m-t-v-s?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 63, in __parse_book_data
+    yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 25, in __init__
+    self._set_url(url)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 69, in _set_url
+    raise ValueError('Missing scheme in request url: %s' % self._url)
+ValueError: Missing scheme in request url: h
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/53206485-l-h-i-c-a-m-en?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 63, in __parse_book_data
+    yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 25, in __init__
+    self._set_url(url)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 69, in _set_url
+    raise ValueError('Missing scheme in request url: %s' % self._url)
+ValueError: Missing scheme in request url: h
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/53642005-tr-ch-i-l-ng-m-n-c-a-t-nh-y-u?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 63, in __parse_book_data
+    yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 25, in __init__
+    self._set_url(url)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 69, in _set_url
+    raise ValueError('Missing scheme in request url: %s' % self._url)
+ValueError: Missing scheme in request url: h
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/53206453-t-tuy-t-cho-n-ng?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 63, in __parse_book_data
+    yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 25, in __init__
+    self._set_url(url)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 69, in _set_url
+    raise ValueError('Missing scheme in request url: %s' % self._url)
+ValueError: Missing scheme in request url: h
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/53206470-th-t-nh?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 63, in __parse_book_data
+    yield scrapy.Request(url=review_url, callback=self.__parse_book_review, meta={'book_id': book_id})
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 25, in __init__
+    self._set_url(url)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\http\request\__init__.py", line 69, in _set_url
+    raise ValueError('Missing scheme in request url: %s' % self._url)
+ValueError: Missing scheme in request url: h
+ERROR: Spider error processing <GET https://www.goodreads.com/book/show/54620839-i-see-yellow-flowers-in-the-green-grass?language_code=&page=1> (referer: https://www.goodreads.com/author/list/4634532.Nguy_n_Nh_t_nh?page=5&per_page=30)
+Traceback (most recent call last):
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\defer.py", line 120, in iter_errback
+    yield next(it)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\utils\python.py", line 347, in __next__
+    return next(self.data)
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\offsite.py", line 29, in process_spider_output
+    for x in result:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\referer.py", line 340, in <genexpr>
+    return (_set_referer(r) for r in result or ())
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\urllength.py", line 37, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\spidermiddlewares\depth.py", line 58, in <genexpr>
+    return (r for r in result or () if _filter(r))
+  File "C:\Users\Enka\Desktop\test1\venv\lib\site-packages\scrapy\core\spidermw.py", line 64, in _evaluate_iterable
+    for r in iterable:
+  File "C:\Users\Enka\Desktop\test1\test1\spiders\BaseSpider.py", line 62, in __parse_book_data
+    for review_url in get_nested_value_from_dict(book_meta_data['reviews'], ['properties', 'url']):
+TypeError: 'NoneType' object is not iterable
