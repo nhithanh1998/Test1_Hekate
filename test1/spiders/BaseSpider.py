@@ -4,6 +4,7 @@ from urllib.parse import urljoin
 from bson.objectid import ObjectId
 from test1.items import BookItem, ReviewItem, CommentItem
 from test1.utils.utils import extract_data, get_nested_value_from_dict, get_first_match, add_url_params
+import logging
 
 
 class BaseSpider(scrapy.Spider, ABC):
@@ -14,18 +15,20 @@ class BaseSpider(scrapy.Spider, ABC):
         yield scrapy.Request(url=self.start_url, callback=self.parse, dont_filter=True)
 
     def parse(self, response, **kwargs):
+        yield scrapy.Request("https://www.goodreads.com/review/show/1969188893", callback=self.__parse_book_review,
+                             meta={"book_id": "Thanh"})
         # get next page and do parse process again
-        next_page = response.xpath('//a[@class="next_page"]/@href').get()
-        if next_page:
-            yield scrapy.Request(url=urljoin(response.url, next_page), callback=self.parse)
+        # next_page = response.xpath('//a[@class="next_page"]/@href').get()
+        # if next_page:
+        #     yield scrapy.Request(url=urljoin(response.url, next_page), callback=self.parse)
 
         # get all book links in page -> access inside -> parse
-        next_book_links = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='next_book_link')
-        for link in next_book_links:
-            # GoodRead using AJAX
-            link = add_url_params(link['url'], {'language_code': '', 'page': 1})
-            yield scrapy.Request(link, callback=self.__parse_book_data, meta={'cur_page': 1,
-                                                                              'genesis_url': link})
+        # next_book_links = extract_data(raw=response.css('html').get(), url=response.url, wanted_value='next_book_link')
+        # for link in next_book_links:
+        #     # GoodRead using AJAX
+        #     link = add_url_params(link['url'], {'language_code': '', 'page': 1})
+        #     yield scrapy.Request(link, callback=self.__parse_book_data, meta={'cur_page': 1,
+        #                                                                       'genesis_url': link})
 
     def __parse_book_data(self, response):
         genesis_url = response.meta.get('genesis_url')
@@ -105,8 +108,8 @@ class BaseSpider(scrapy.Spider, ABC):
             comment_item['user_id'] = get_first_match(r"(?!.*\/)[0-9]*",
                                                       comment_sel.xpath('//a/@href').extract_first())
             comment_item['user_name'] = comment_sel.xpath('//a/@title').extract_first()
-            comment_item['content'] = comment_sel.xpath('//div[@class = "mediumText reviewText"]/text()').extract()[
-                1].strip()
+            comment_item['content'] = ''.join(comment_sel.xpath('//div[@class = "mediumText reviewText"]/text()')
+                                              .extract()).strip()
             comment_item['date_posted'] = comment_sel.xpath('//div[@class = "right"]/@title').extract_first()
 
             yield comment_item

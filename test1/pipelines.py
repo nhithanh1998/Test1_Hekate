@@ -28,10 +28,8 @@ class MongoPipeline:
     def process_item(self, item, spider):
         if isinstance(item, BookItem):
             self.insert_book_item(item)
-            return []
         if isinstance(item, ReviewItem):
             self.insert_review_item(item)
-            return []
         if isinstance(item, CommentItem):
             self.insert_comment_item(item)
         return item

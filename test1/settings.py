@@ -90,6 +90,6 @@ ITEM_PIPELINES = {
 
 MONGO_URI = 'mongodb+srv://nhithanh123vnn:nhithanh123@cluster0.gwjou.mongodb.net'
 MONGO_DATABASE = 'test1'
-LOG_LEVEL = 'ERROR'  # to only display errors
+LOG_LEVEL = 'INFO'  # to only display errors
 LOG_FORMAT = '%(levelname)s: %(message)s'
 LOG_FILE = 'log.txt'
